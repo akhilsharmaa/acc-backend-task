@@ -1,13 +1,13 @@
 import sendEmail from './sendMail';
 
 const sendMailToReferrer = async (
-        referrer_first_name,
-        referrer_last_name,
-        referrer_email,
-        referal_code,
-        referee_first_name,
-        referee_last_name,
-        referee_email
+        referrer_first_name : string,
+        referrer_last_name: string,
+        referrer_email: string,
+        referal_code: string,
+        referee_first_name: string,
+        referee_last_name: string,
+        referee_email: string,
     ) => {
 
     const htmlbody = `<!DOCTYPE html>
