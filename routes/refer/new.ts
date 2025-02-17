@@ -4,6 +4,9 @@ import prisma from '../../database/prisma';
 
 const router: Router = express.Router(); 
 
+const isInputEmpty = (value) => !value || value.trim() === '';
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 router.post('/new', async (req:Request, res:Response) => {
 
     const { referrer_first_name, 
@@ -14,55 +17,40 @@ router.post('/new', async (req:Request, res:Response) => {
             referee_last_name,
             referee_email, 
             referrer_source_of_information} = req.body;
-
     
-    if (!referrer_first_name) {
-        res.status(400).json({
-            message: `'referrer_first_name' not found, please provide a valid Referrer First Name"`,
-        }); return; 
+
+    const requiredFields = [
+        { key: "referrer_first_name", value: referrer_first_name },
+        { key: "referrer_last_name", value: referrer_last_name },
+        { key: "referrer_email", value: referrer_email },
+        { key: "referal_code", value: referal_code },
+        { key: "referee_first_name", value: referee_first_name },
+        { key: "referee_last_name", value: referee_last_name },
+        { key: "referee_email", value: referee_email },
+        { key: "referrer_source_of_information", value: referrer_source_of_information }
+    ];
+
+    /** Checking the Field is not empty  */    
+    for (const field of requiredFields) {
+        if (isInputEmpty(field.value)) {
+            res.status(400).json({
+                message: `"${field.key}" is required. Please provide a valid "${field.key}".`
+            }); return;
+        }
     }
 
-    if (!referrer_last_name) {
-        res.status(400).json({
-            message: `"referrer_last_name" not found, please provide a valid "referrer_last_name"`,
-        }); return; 
-    }
+    const requiredEmailFields = [
+        { key: "referrer_email", value: referrer_email },
+        { key: "referee_email", value: referee_email },
+    ];
 
-    if (!referrer_email) {
-        res.status(400).json({
-            message: `"referrer_email" not found, please provide a valid "referrer_email"`,
-        }); return; 
-    }
-
-    if (!referal_code) {
-        res.status(400).json({
-            message: `"referal_code" not found, please provide a valid Referal Code`,
-        }); return; 
-    }
-
-    if (!referee_first_name) {
-        res.status(400).json({
-            message: `"referee_first_name" not found, please provide a valid "referrer_last_name"`,
-        }); return; 
-    }
-
-
-    if (!referee_last_name) {
-        res.status(400).json({
-            message: `"referee_last_name" not found, please provide a valid "referrer_last_name"`,
-        }); return; 
-    }
-
-    if (!referee_email) {
-        res.status(400).json({
-            message: `"referee_first_name" not found, please provide a valid "referrer_email"`,
-        }); return; 
-    }
-
-    if (!referrer_source_of_information) {
-        res.status(400).json({
-            message: `"referrer_source_of_information" not found, please provide a valid "referrer_email"`,
-        }); return; 
+    /** Checking the Field is not empty  */    
+    for (const field of requiredEmailFields) {
+        if (!isValidEmail(field.value)) {
+            res.status(400).json({
+                message: `"${field.key}" is required. Please provide a valid "${field.key}".`
+            }); return;
+        }
     }
 
     try {  
