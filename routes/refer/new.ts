@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Router } from 'express'; 
-import prisma from '../../database/prisma';
+import prisma from '../../database/prisma'; 
+import sendTestEmail from '../../utils/sendMail'; 
 
 const router: Router = express.Router(); 
 
@@ -68,6 +69,9 @@ router.post('/new', async (req:Request, res:Response) => {
                 }
             }
         ).then(() => {
+     
+            sendTestEmail([referee_email]);
+
             res.status(200).json({
                 message: "Successfully created the referal."
             });
