@@ -13,9 +13,12 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.send({
-        "message": "welcode to accredian assignment"
+        "message": "welcome to accredian assignment backend"
     })
 })
+
+import referNew from './routes/refer/new';
+app.use('/refer', [referNew]);
 
 // Start the server
 app.listen(PORT, () => {
