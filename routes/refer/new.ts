@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import { Router } from 'express'; 
 import prisma from '../../database/prisma'; 
-import sendTestEmail from '../../utils/sendMail'; 
+import sendMailToReferrer from '../../utils/sendMailToReferrer'; 
+import sendMailToReferee from '../../utils/sendMailToReferee'; 
 
 const router: Router = express.Router(); 
 
@@ -69,11 +70,31 @@ router.post('/new', async (req:Request, res:Response) => {
                 }
             }
         ).then(() => {
-     
-            sendTestEmail([referee_email]);
+                 
+            // SENDING MAIL TO REFRER 
+            sendMailToReferrer(
+                    referrer_first_name,  
+                    referrer_last_name,
+                    referrer_email,  
+                    referal_code,  
+                    referee_first_name, 
+                    referee_last_name,
+                    referee_email, 
+            );
+
+            // SENDING MAIL TO Refree 
+            sendMailToReferee(
+                referrer_first_name,  
+                referrer_last_name,
+                referrer_email,  
+                referal_code,  
+                referee_first_name, 
+                referee_last_name,
+                referee_email, 
+            );
 
             res.status(200).json({
-                message: "Successfully created the referal."
+                message: "Successfully created the referal, you should get the confirmation email."
             });
         }).catch((err)=> {
             if (err.code === "P2002") {
