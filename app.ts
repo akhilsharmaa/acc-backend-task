@@ -9,7 +9,7 @@ dotenv.config()
 app.use(bodyParser.json({limit: "100mb"}))
 app.use(bodyParser.urlencoded({limit:"50mb", extended: true}))
 
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.PORT || 4000; 
 
 app.get('/', (req, res) => {
     res.send({
