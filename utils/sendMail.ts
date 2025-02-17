@@ -24,15 +24,18 @@ const sendEmail = async (
     ) => {
 
     const ACCESS_TOKEN = await oAuth2Client.getAccessToken();
+    
     const transport = nodemailer.createTransport({
-        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
             type: "OAuth2",
             user: MY_EMAIL,
             clientId: CLIENT_ID,
             clientSecret: CLIENT_SECRET,
             refreshToken: REFRESH_TOKEN,
-            accessToken: ACCESS_TOKEN,
+            accessToken: ACCESS_TOKEN?.token as string, // Ensure access token is string
         }
     });
 
