@@ -55,6 +55,12 @@ router.post('/new', async (req:Request, res:Response) => {
         }
     }
 
+    if (referrer_email === referee_email) {
+        res.status(400).json({
+            message: "Referrer & Referee can't have same email, You can't refer yourself. "
+        }); return;
+    }
+
     try {  
 
         prisma.referal.create({  
@@ -70,7 +76,7 @@ router.post('/new', async (req:Request, res:Response) => {
                 }
             }
         ).then(() => {
-                 
+            
             // SENDING MAIL TO REFRER 
             sendMailToReferrer(
                     referrer_first_name,  
