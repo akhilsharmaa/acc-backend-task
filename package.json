@@ -6,9 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node-dev app.ts",
     "build": "tsc",
-    "dev": "npx tsc -w & nodemon dist/app.js",  
-    "clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm cache clean --force" 
-  }, 
+    "dev": "npx tsc -w & nodemon dist/app.js",
+    "clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm cache clean --force"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -18,8 +18,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-list-endpoints": "^7.1.1",
     "googleapis": "^50.0.0",
-    "express-list-endpoints": "^7.1.1",  
     "import": "^0.0.6",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.10.0",
